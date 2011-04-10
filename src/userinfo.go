@@ -5,6 +5,8 @@ import (
   "container/list";
 )
 
+
+
 type UserInfo struct {
   Id string;
   IN chan string;
@@ -15,6 +17,7 @@ type UserInfo struct {
   WantsPartner bool;
   WantsToBreakUp bool;
 }
+
 
 
 func (u *UserInfo) Init( id string, conn *net.Conn, partner *UserInfo, userList *list.List, wantsPartner bool ) {
@@ -28,6 +31,8 @@ func (u *UserInfo) Init( id string, conn *net.Conn, partner *UserInfo, userList 
   u.IN = make(chan string);
 }
 
+
+
 func (u *UserInfo) Read( buf []byte ) bool {
   _, err := (*u.Con).Read(buf);
   if err != nil {
@@ -38,11 +43,13 @@ func (u *UserInfo) Read( buf []byte ) bool {
 }
 
 
+
 func (u *UserInfo) Close() {
   u.Quit <- true;
   (*u.Con).Close();
   u.DeleteFromList();
 }
+
 
 
 func (u *UserInfo) Equal( b *UserInfo ) bool {
@@ -53,6 +60,8 @@ func (u *UserInfo) Equal( b *UserInfo ) bool {
   }
   return false;
 }
+
+
 
 func (u *UserInfo) DeleteFromList() {
   for e:= u.UserList.Front(); e != nil; e = e.Next() {
@@ -68,12 +77,14 @@ func (u *UserInfo) DeleteFromList() {
 }
 
 
+
 func (u *UserInfo) IsPaired() bool {
   if u.Partner != nil {
    return true;
   }
   return false;
 }
+
 
 
 func (u *UserInfo) BreakUp() {
@@ -83,6 +94,7 @@ func (u *UserInfo) BreakUp() {
   }
   u.Partner = nil;
 }
+
 
 
 func (u *UserInfo) Marry( b *UserInfo ) {

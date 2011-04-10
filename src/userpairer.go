@@ -5,10 +5,13 @@ import (
   "time";
 );
 
+
+
 type UserPairer struct {
   userList *list.List;
   unpairedUsers *list.List;
 }
+
 
 
 func (up *UserPairer) Init( userlist *list.List ) {
@@ -16,9 +19,12 @@ func (up *UserPairer) Init( userlist *list.List ) {
 }
 
 
+
 func (up *UserPairer) Start() {
   for {
     up.unpairedUsers = new(list.List);
+
+    // Must think of a more efficient way to handle the following things
 
     // Run through pairs and breakup those in need to
     for e := up.userList.Front(); e != nil; e = e.Next() {
@@ -27,6 +33,7 @@ func (up *UserPairer) Start() {
         user.BreakUp();
       }
     }
+
     // Run through all users and generate list from the one's who need a partner
     for e := up.userList.Front(); e != nil; e = e.Next() {
       user := e.Value.(*UserInfo);
@@ -36,7 +43,10 @@ func (up *UserPairer) Start() {
         }
       }
     }
+
     // Randomize the list of users in need of a pair
+    // To be done!
+
     // Generate pairs from them
     for e := up.unpairedUsers.Front(); e != nil; e = e.Next() {
       user := e.Value.(*UserInfo);
@@ -49,7 +59,6 @@ func (up *UserPairer) Start() {
         }
       }
     }
-
     time.Sleep( 10 );
   }
 }

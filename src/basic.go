@@ -23,3 +23,22 @@ func Test( err os.Error, mesg string ) {
     Log( "Ok: "+ mesg );
 }
 
+
+
+func PrintUsageToClient( client *UserInfo ) {
+  msg := string(
+   "Welcome!\n"+
+   "Basic commands:\n"+
+   "  /next  - If talking already, disconnect and\n"+
+   "           connect with a new stranger.\n"+
+   "  /break - Break the conversation with stranger.\n"+
+   "  /quit  - Quit.\n\n" );
+  (*client.Con).Write( []byte( msg ) );
+}
+
+
+
+func StrLen( str string ) int {
+  return strings.Index( str, string(0) );
+}
+

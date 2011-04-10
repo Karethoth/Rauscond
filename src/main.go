@@ -8,14 +8,14 @@ import (
 )
 
 
-func StrLen( str string ) int {
-  return strings.Index( str, string(0) );
-}
+
 func ClearBuffer( buf *[]byte ) {
   for i:=0; i<2048; i++ {
     (*buf)[i]=0x00;
   }
 }
+
+
 
 func ClientReceiver( client *UserInfo ) {
   buf := make([]byte, 2048);
@@ -33,6 +33,7 @@ func ClientReceiver( client *UserInfo ) {
       client.WantsPartner = true;
       ClearBuffer( &buf );
       continue;
+
     } else if line == "/break" {
       client.WantsToBreakUp = true;
       ClearBuffer( &buf );
@@ -47,6 +48,8 @@ func ClientReceiver( client *UserInfo ) {
   }
   Log( "ClientReceiver(): stop for: " + client.Id );
 }
+
+
 
 func ClientSender( client *UserInfo ) {
   Log( "ClientSender(): start for: " + client.Id );
@@ -67,8 +70,9 @@ func ClientSender( client *UserInfo ) {
 }
 
 
+
 func HandleNewClient( con *net.Conn, lst *list.List ) {
-id := "USER"+strconv.Uitoa64(*idCounter);
+  id := "USER"+strconv.Uitoa64(*idCounter);
   *idCounter++;
   var newClient = new(UserInfo);
   newClient.Init( id, con, nil, lst, true );
@@ -80,16 +84,6 @@ id := "USER"+strconv.Uitoa64(*idCounter);
 }
 
 
-func PrintUsageToClient( client *UserInfo ) {
-  msg := string(
-   "Welcome!\n"+
-   "Basic commands:\n"+
-   "  /next  - If talking already, disconnect and\n"+
-   "           connect with a new stranger.\n"+
-   "  /break - Break the conversation with stranger.\n"+
-   "  /quit  - Quit.\n\n" );
-  (*client.Con).Write( []byte( msg ) );
-}
 
 
 var debug *bool;
@@ -122,3 +116,4 @@ func main() {
     go HandleNewClient( &conn, userList );
   }
 }
+
