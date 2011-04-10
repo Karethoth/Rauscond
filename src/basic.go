@@ -3,6 +3,7 @@ package rauscond
 import (
   "fmt";
   "os";
+  "strings";
 )
 
 
